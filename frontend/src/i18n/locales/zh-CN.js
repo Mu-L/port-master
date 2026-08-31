@@ -43,6 +43,7 @@ export default {
     processList: '进程列表',
     conflicts: '冲突检测',
     backup: '备份',
+    ai: 'AI 助手',
     settings: '设置',
     switchLight: '切换浅色',
     switchDark: '切换深色'
@@ -353,5 +354,28 @@ export default {
     killSuccess: '操作成功',
     freePortDone: '端口释放操作完成',
     batchDone: '批量操作完成'
+  },
+  ai: {
+    title: 'AI 端口助手',
+    selectProvider: '选择厂商',
+    settingsTip: 'API Key / 模型配置',
+    apiKey: 'API Key',
+    apiKeyPlaceholder: '可覆盖服务端环境变量，仅存本机浏览器',
+    baseUrl: 'Base URL',
+    baseUrlPlaceholder: '可选，兼容通道可改',
+    model: '模型',
+    modelPlaceholder: '如 deepseek-chat / qwen2.5:7b',
+    includeContext: '注入当前端口扫描上下文',
+    saveLocal: '保存到本机',
+    keyHint: 'Key 只保存在浏览器 LocalStorage，不会写入服务端磁盘。Ollama 通常无需 Key。',
+    welcome: '你好！我可以根据当前本机端口扫描结果帮你排查冲突、占用和建议空闲端口。',
+    inputPlaceholder: '描述你的端口问题，Enter 发送',
+    send: '发送',
+    clear: '清空对话',
+    needKey: '需配置 Key',
+    savedLocal: 'AI 配置已保存到本机',
+    disabled: '服务端已关闭 AI（portmaster.ai.enabled=false）',
+    emptyReply: '（无内容返回）',
+    error: '调用失败'
   }
 }

@@ -1,18 +1,20 @@
 import { loadFromStorage, saveToStorage, STORAGE_KEYS, getDefaultGroups, getDefaultSettings } from './storage'
+import { getDefaultAiSettings } from './aiSettings'
 
 /**
  * 导出全部本地配置为 JSON
  */
 export function exportConfig() {
   return {
-    version: '2.0',
+    version: '3.0',
     exportedAt: new Date().toISOString(),
     groups: loadFromStorage(STORAGE_KEYS.GROUPS, getDefaultGroups()),
     monitor: loadFromStorage(STORAGE_KEYS.MONITOR, { enabled: false, ports: [] }),
     history: loadFromStorage(STORAGE_KEYS.HISTORY, []),
     settings: loadFromStorage(STORAGE_KEYS.SETTINGS, getDefaultSettings()),
     remoteHosts: loadFromStorage(STORAGE_KEYS.REMOTE_HOSTS, []),
-    scanHistory: loadFromStorage(STORAGE_KEYS.SCAN_HISTORY, [])
+    scanHistory: loadFromStorage(STORAGE_KEYS.SCAN_HISTORY, []),
+    ai: loadFromStorage(STORAGE_KEYS.AI, getDefaultAiSettings())
   }
 }
 
@@ -38,5 +40,6 @@ export function importConfig(json) {
   if (data.settings) saveToStorage(STORAGE_KEYS.SETTINGS, data.settings)
   if (data.remoteHosts) saveToStorage(STORAGE_KEYS.REMOTE_HOSTS, data.remoteHosts)
   if (data.scanHistory) saveToStorage(STORAGE_KEYS.SCAN_HISTORY, data.scanHistory)
+  if (data.ai) saveToStorage(STORAGE_KEYS.AI, data.ai)
   return data
 }

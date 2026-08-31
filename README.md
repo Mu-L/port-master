@@ -8,9 +8,11 @@
   <img src="https://img.shields.io/badge/Spring%20Boot-3.2-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot"/>
   <img src="https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white" alt="Java 17"/>
   <img src="https://img.shields.io/badge/Vue-3-4FC08D?logo=vuedotjs&logoColor=white" alt="Vue 3"/>
-  <img src="https://img.shields.io/badge/Version-2.1.0-blue" alt="Version 2.1"/>
+  <img src="https://img.shields.io/badge/Version-3.0.0-blue" alt="Version 3.0"/>
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="MIT License"/>
 </p>
+
+> **v3.0 更新亮点**：Spring AI 多厂商路由 · DeepSeek / Ollama / OpenAI 兼容通道 · AI 侧边栏端口诊断助手
 
 > **v2.1 更新亮点**：WebSocket 后台监控告警 · Kubernetes Pod/Service 端口 · 中英文界面切换
 
@@ -101,14 +103,23 @@
 | v2 工具栏 | 远程 SSH、Docker、K8s、扫描历史、网络接口等入口 |
 | 多语言 | 简体中文 / English 界面切换（设置 → 界面语言） |
 
+### AI 助手（v3.0）
+
+| 功能 | 说明 |
+|------|------|
+| 多厂商路由 | Spring AI：DeepSeek / Ollama / OpenAI / 通义兼容 / Moonshot / 硅基流动 / 自定义兼容端点 |
+| 侧边栏对话 | 工具栏「AI 助手」抽屉，支持流式输出与快捷提问 |
+| 端口上下文 | 可选注入当前监听端口、冲突、系统资源摘要 |
+| 本地 Key | API Key 可存浏览器 LocalStorage，也可通过环境变量配置服务端 |
+
 ---
 
 ## 技术栈
 
 | 层级 | 技术 |
 |------|------|
-| 后端 | Spring Boot 3.2、Java 17、Lombok |
-| 前端 | Vue 3、Vite 5、Element Plus、Axios、XLSX |
+| 后端 | Spring Boot 3.4、Java 17、Spring AI 1.0、Lombok |
+| 前端 | Vue 3、Vite 5、Element Plus、Axios、XLSX、vue-i18n |
 | 存储 | 无数据库，用户配置全部存浏览器 LocalStorage |
 | 部署 | 单 jar 包运行，前端可独立开发或嵌入 static 一体部署 |
 | 跨平台 | Windows / Linux / macOS，仅调用系统原生命令 |
@@ -210,7 +221,7 @@ cd backend
 mvn spring-boot:run
 ```
 
-后端默认地址：`http://localhost:8080`
+后端默认地址：`http://localhost:8086`
 
 **2. 启动前端**
 
@@ -235,7 +246,7 @@ cd ../backend && mvn clean package -DskipTests
 java -jar target/port-master-1.0.0.jar
 ```
 
-访问 `http://localhost:8080` 即可。
+访问 `http://localhost:8086` 即可。
 
 ### 各平台启动示例
 
@@ -295,6 +306,7 @@ java -jar port-master-1.0.0.jar --server.port=9090
 15. **数据导出** — 「导出」下拉选择 Excel / Markdown / TXT
 16. **配置备份** — 「备份」导出 JSON 配置，换环境后导入恢复
 17. **主题切换** — 工具栏月亮/太阳图标，或「设置」中选择浅色/深色
+18. **AI 助手** — 工具栏「AI 助手」打开侧边栏，选择厂商并配置 Key，可结合当前端口上下文诊断
 
 ---
 
@@ -339,7 +351,16 @@ java -jar port-master-1.0.0.jar --server.port=9090
 |------|------|------|
 | GET | `/system/stats` | 系统监控统计 |
 | GET | `/system/info` | 系统信息与权限提示 |
-| GET | `/system/config` | 服务端配置（轮询间隔、缓存 TTL、版本号） |
+| GET | `/system/config` | 服务端配置（轮询间隔、缓存 TTL、版本号、AI 开关） |
+
+### AI 助手（v3.0）
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/ai/status` | AI 是否启用、默认厂商、厂商列表 |
+| GET | `/ai/providers` | 预置厂商列表（不含 API Key 明文） |
+| POST | `/ai/chat` | 同步对话 `{ providerId, message, includeContext, apiKey?, baseUrl?, model?, history? }` |
+| POST | `/ai/chat/stream` | SSE 流式对话（`event: message/done/error`） |
 
 ### 监控 WebSocket
 
@@ -411,6 +432,11 @@ portmaster:
   ssh:
     connect-timeout-ms: 10000
     command-timeout-sec: 60
+  ai:
+    enabled: true
+    default-provider: openai
+    # providers.* 见 application.yml；可用环境变量：
+    # DEEPSEEK_API_KEY / OPENAI_API_KEY / DASHSCOPE_API_KEY / MOONSHOT_API_KEY / SILICONFLOW_API_KEY
 ```
 
 ### 前端 LocalStorage 键
@@ -423,6 +449,7 @@ portmaster:
 | `portmaster_settings` | 主题、语言、自动刷新、分页等设置 |
 | `portmaster_remote_hosts` | SSH 主机收藏（不含密码） |
 | `portmaster_scan_history` | 扫描历史快照 |
+| `portmaster_ai` | AI 厂商、模型、API Key（仅本机浏览器） |
 
 可通过「备份」功能导出为 JSON 文件。
 

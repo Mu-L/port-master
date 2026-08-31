@@ -43,7 +43,7 @@ public class SystemController {
                 "osType", osType,
                 "osCategory", OsDetector.getOsType().name(),
                 "javaVersion", System.getProperty("java.version"),
-                "version", "2.1.0",
+                "version", "3.0.0",
                 "permissionHint", permissionHint
         ));
     }
@@ -54,7 +54,9 @@ public class SystemController {
         return ApiResponse.success(Map.of(
                 "monitorPollIntervalMs", properties.getMonitor().getPollIntervalMs(),
                 "scanCacheTtlMs", properties.getScan().getCacheTtlMs(),
-                "version", "2.1.0"
+                "version", "3.0.0",
+                "aiEnabled", properties.getAi().isEnabled(),
+                "aiDefaultProvider", properties.getAi().getDefaultProvider()
         ));
     }
 }

@@ -43,6 +43,7 @@ export default {
     processList: 'Processes',
     conflicts: 'Conflicts',
     backup: 'Backup',
+    ai: 'AI Assistant',
     settings: 'Settings',
     switchLight: 'Light theme',
     switchDark: 'Dark theme'
@@ -353,5 +354,28 @@ export default {
     killSuccess: 'Success',
     freePortDone: 'Port released',
     batchDone: 'Batch operation done'
+  },
+  ai: {
+    title: 'AI Port Assistant',
+    selectProvider: 'Provider',
+    settingsTip: 'API Key / model',
+    apiKey: 'API Key',
+    apiKeyPlaceholder: 'Overrides server env; stored in browser only',
+    baseUrl: 'Base URL',
+    baseUrlPlaceholder: 'Optional for compatible endpoints',
+    model: 'Model',
+    modelPlaceholder: 'e.g. deepseek-chat / qwen2.5:7b',
+    includeContext: 'Include live port scan context',
+    saveLocal: 'Save locally',
+    keyHint: 'Keys stay in browser LocalStorage and are never written to server disk. Ollama usually needs no key.',
+    welcome: 'Hi! I can help diagnose port conflicts, ownership, and free-port suggestions using your live scan.',
+    inputPlaceholder: 'Describe your port issue, Enter to send',
+    send: 'Send',
+    clear: 'Clear',
+    needKey: 'needs key',
+    savedLocal: 'AI settings saved locally',
+    disabled: 'AI disabled on server (portmaster.ai.enabled=false)',
+    emptyReply: '(empty reply)',
+    error: 'Request failed'
   }
 }

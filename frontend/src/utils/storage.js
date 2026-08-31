@@ -7,7 +7,8 @@ const STORAGE_KEYS = {
   HISTORY: 'portmaster_history',
   SETTINGS: 'portmaster_settings',
   REMOTE_HOSTS: 'portmaster_remote_hosts',
-  SCAN_HISTORY: 'portmaster_scan_history'
+  SCAN_HISTORY: 'portmaster_scan_history',
+  AI: 'portmaster_ai'
 }
 
 /** 默认设置 */

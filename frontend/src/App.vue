@@ -5,7 +5,7 @@
       <div class="sidebar-header">
         <el-icon :size="24" color="#409EFF"><Monitor /></el-icon>
         <span class="logo-text">Port Master</span>
-        <el-tag size="small" type="success" class="version-tag">v2.1</el-tag>
+        <el-tag size="small" type="success" class="version-tag">v3.0</el-tag>
       </div>
 
       <el-menu :default-active="activeGroup" class="group-menu" @select="handleGroupSelect">
@@ -137,6 +137,7 @@
           <el-button :icon="Link" @click="showNetworkDialog = true">{{ t('toolbar.network') }}</el-button>
           <el-button :icon="List" @click="showProcessList = true">{{ t('toolbar.processList') }}</el-button>
           <el-button :icon="Warning" @click="showConflictDialog = true">{{ t('toolbar.conflicts') }}</el-button>
+          <el-button :icon="ChatDotRound" type="success" @click="showAiDrawer = true">{{ t('toolbar.ai') }}</el-button>
           <el-button :icon="FolderOpened" @click="showConfigBackup = true">{{ t('toolbar.backup') }}</el-button>
           <el-tooltip :content="isDark ? t('toolbar.switchLight') : t('toolbar.switchDark')" placement="bottom">
             <el-button :icon="isDark ? Sunny : Moon" circle @click="handleToggleTheme" />
@@ -254,6 +255,9 @@
     <NetworkDialog v-model="showNetworkDialog" />
     <K8sDialog v-model="showK8sDialog" @query-port="handleDockerQueryPort" />
 
+    <!-- AI 助手侧边栏 -->
+    <AiAssistantDrawer v-model="showAiDrawer" />
+
     <!-- 新建分组 -->
     <el-dialog v-model="showGroupDialog" :title="t('group.newTitle')" width="400px">
       <el-form @submit.prevent="createGroup">
@@ -288,7 +292,7 @@ import { ElMessage, ElNotification } from 'element-plus'
 import {
   Search, Refresh, Download, Bell, MagicStick, Plus, Setting,
   Monitor, Grid, Folder, Clock, Warning, ArrowDown, List, Moon, Sunny,
-  Connection, FolderOpened, Box, TrendCharts, Link, Platform
+  Connection, FolderOpened, Box, TrendCharts, Link, Platform, ChatDotRound
 } from '@element-plus/icons-vue'
 import { applyTheme } from '@/utils/theme'
 import { diffScans, getDiffStats } from '@/utils/scanDiff'
@@ -312,6 +316,7 @@ import DockerDialog from '@/components/DockerDialog.vue'
 import ScanHistoryDialog from '@/components/ScanHistoryDialog.vue'
 import NetworkDialog from '@/components/NetworkDialog.vue'
 import K8sDialog from '@/components/K8sDialog.vue'
+import AiAssistantDrawer from '@/components/AiAssistantDrawer.vue'
 import request from '@/api'
 import { connectMonitorWs, disconnectMonitorWs, syncMonitorConfig } from '@/utils/monitorWs'
 import { loadFromStorage, saveToStorage, STORAGE_KEYS, getDefaultGroups, getDefaultSettings, COMMON_PORTS } from '@/utils/storage'
@@ -365,6 +370,7 @@ const showDockerDialog = ref(false)
 const showScanHistory = ref(false)
 const showNetworkDialog = ref(false)
 const showK8sDialog = ref(false)
+const showAiDrawer = ref(false)
 const probeInitialPort = ref('')
 
 let statsTimer = null
